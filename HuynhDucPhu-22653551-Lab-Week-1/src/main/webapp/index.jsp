@@ -11,7 +11,7 @@
 
 <div class="container py-5">
 
-    <h1 class="text-center mb-4 text-primary">Bài tập thực hành tuần 1 - 2</h1>
+    <h1 class="text-center mb-4 text-primary">Bài tập thực hành tuần 1</h1>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
         <div class="col">
@@ -34,9 +34,18 @@
         </div>
         <div class="col">
             <div class="card shadow-sm">
-                <a href="section5.jsp" class="text-decoration-none">
+                <a href="section6/UploadPage.jsp" class="text-decoration-none">
                     <div class="card-body text-center">
-                        <h3 class="card-title text-primary">Bài 6</h3>
+                        <h3 class="card-title text-primary">Bài 6 - Upload files</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm">
+                <a href="section7/ContactPage.jsp" class="text-decoration-none">
+                    <div class="card-body text-center">
+                        <h3 class="card-title text-primary">Bài 7 - File upload to database</h3>
                     </div>
                 </a>
             </div>
