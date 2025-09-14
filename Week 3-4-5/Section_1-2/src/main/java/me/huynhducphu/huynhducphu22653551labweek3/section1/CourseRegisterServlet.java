@@ -1,4 +1,4 @@
-package me.huynhducphu.huynhducphu22653551labweek2.section1;
+package me.huynhducphu.huynhducphu22653551labweek3.section1;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,20 +32,23 @@ public class CourseRegisterServlet extends HttpServlet {
         String[] hobbies = req.getParameterValues("hobbies");
         var course = req.getParameter("course");
 
-        req.setAttribute("firstName", firstName);
-        req.setAttribute("lastName", lastName);
-        req.setAttribute("dateOfBirth", dateOfBirth);
-        req.setAttribute("email", email);
-        req.setAttribute("mobileNumber", mobileNumber);
-        req.setAttribute("gender", gender);
-        req.setAttribute("address", address);
-        req.setAttribute("city", city);
-        req.setAttribute("pinCode", pinCode);
-        req.setAttribute("state", state);
-        req.setAttribute("country", country);
-        req.setAttribute("hobbies", hobbies);
-        req.setAttribute("course", course);
+        var student = new Student(
+                req.getParameter("firstName"),
+                req.getParameter("lastName"),
+                LocalDate.parse(req.getParameter("dateOfBirth")),
+                req.getParameter("email"),
+                req.getParameter("mobileNumber"),
+                req.getParameter("gender"),
+                req.getParameter("address"),
+                req.getParameter("city"),
+                req.getParameter("pinCode"),
+                req.getParameter("state"),
+                req.getParameter("country"),
+                req.getParameterValues("hobbies"),
+                req.getParameter("course")
+        );
 
+        req.setAttribute("student", student);
         req.getRequestDispatcher("/section1/Result.jsp").forward(req, resp);
-    }
+   }
 }

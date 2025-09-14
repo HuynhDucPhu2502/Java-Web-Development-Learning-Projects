@@ -1,14 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Admin
-  Date: 8/24/2025
-  Time: 3:33 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Registration Result</title>
     <link href="../resource/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -21,59 +14,59 @@
             <tbody>
             <tr>
                 <th>First Name</th>
-                <td>${firstName}</td>
+                <td>${student.firstName}</td>
             </tr>
             <tr>
                 <th>Last Name</th>
-                <td>${lastName}</td>
+                <td>${student.lastName}</td>
             </tr>
             <tr>
                 <th>Date of Birth</th>
-                <td>${dateOfBirth}</td>
+                <td>${student.dateOfBirth}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td>${email}</td>
+                <td>${student.email}</td>
             </tr>
             <tr>
                 <th>Mobile Number</th>
-                <td>${mobileNumber}</td>
+                <td>${student.mobileNumber}</td>
             </tr>
             <tr>
                 <th>Gender</th>
-                <td>${gender}</td>
+                <td>${student.gender}</td>
             </tr>
             <tr>
                 <th>Address</th>
-                <td>${address}</td>
+                <td>${student.address}</td>
             </tr>
             <tr>
                 <th>City</th>
-                <td>${city}</td>
+                <td>${student.city}</td>
             </tr>
             <tr>
                 <th>Pin Code</th>
-                <td>${pinCode}</td>
+                <td>${student.pinCode}</td>
             </tr>
             <tr>
                 <th>State</th>
-                <td>${state}</td>
+                <td>${student.state}</td>
             </tr>
             <tr>
                 <th>Country</th>
-                <td>${country}</td>
+                <td>${student.country}</td>
             </tr>
             <tr>
                 <th>Hobbies</th>
                 <td>
-                    <c:forEach var="h" items="${hobbies}">
+                    <c:forEach var="h" items="${student.hobbies}">
                         <span class="badge bg-primary me-1">${h}</span>
                     </c:forEach>
                 </td>
             </tr>
             <tr>
                 <th>Course Applied For</th>
-                <td>${course}</td>
+                <td>${student.course}</td>
             </tr>
             </tbody>
         </table>
