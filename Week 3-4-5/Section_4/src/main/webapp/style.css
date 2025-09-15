@@ -1,0 +1,367 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+    --background: #ffffff;
+    --foreground: #4b5563;
+    --card: #fffbeb;
+    --card-foreground: #4b5563;
+    --popover: #ffffff;
+    --popover-foreground: #4b5563;
+    --primary: #ea580c;
+    --primary-foreground: #ffffff;
+    --secondary: #f97316;
+    --secondary-foreground: #ffffff;
+    --muted: #fef2f2;
+    --muted-foreground: #374151;
+    --accent: #f97316;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #e5e7eb;
+    --input: #ffffff;
+    --ring: rgba(234, 88, 12, 0.5);
+    --chart-1: #f97316;
+    --chart-2: #ea580c;
+    --chart-3: #fffbeb;
+    --chart-4: #4b5563;
+    --chart-5: #dc2626;
+    --radius: 0.5rem;
+    --sidebar: #ffffff;
+    --sidebar-foreground: #4b5563;
+    --sidebar-primary: #ea580c;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f97316;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #e5e7eb;
+    --sidebar-ring: rgba(234, 88, 12, 0.5);
+}
+
+.dark {
+    --background: #0f172a;
+    --foreground: #f1f5f9;
+    --card: #1e293b;
+    --card-foreground: #f1f5f9;
+    --popover: #1e293b;
+    --popover-foreground: #f1f5f9;
+    --primary: #f97316;
+    --primary-foreground: #ffffff;
+    --secondary: #ea580c;
+    --secondary-foreground: #ffffff;
+    --muted: #334155;
+    --muted-foreground: #cbd5e1;
+    --accent: #f97316;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #334155;
+    --input: #1e293b;
+    --ring: rgba(249, 115, 22, 0.5);
+    --chart-1: #f97316;
+    --chart-2: #ea580c;
+    --chart-3: #1e293b;
+    --chart-4: #f1f5f9;
+    --chart-5: #ef4444;
+    --sidebar: #0f172a;
+    --sidebar-foreground: #f1f5f9;
+    --sidebar-primary: #f97316;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #ea580c;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #334155;
+    --sidebar-ring: rgba(249, 115, 22, 0.5);
+}
+
+@theme inline {
+    --font-sans: "Work Sans", system-ui, -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", "Fira Code", monospace;
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground font-sans;
+        line-height: 1.6;
+    }
+}
+
+/* Custom styles for JSP pages */
+.bookstore-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--background);
+    min-height: 100vh;
+}
+
+.bookstore-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--primary-foreground);
+    padding: 2rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.bookstore-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bookstore-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.bookstore-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.bookstore-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.bookstore-table th {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.bookstore-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.bookstore-table tr:hover {
+    background: var(--muted);
+}
+
+.bookstore-button {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.bookstore-button:hover {
+    background: var(--secondary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+}
+
+.bookstore-button-secondary {
+    background: var(--muted);
+    color: var(--muted-foreground);
+    border: 1px solid var(--border);
+}
+
+.bookstore-button-secondary:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+}
+
+.bookstore-button-danger {
+    background: var(--destructive);
+    color: var(--destructive-foreground);
+}
+
+.bookstore-button-danger:hover {
+    background: #b91c1c;
+}
+
+.bookstore-input {
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.bookstore-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--ring);
+}
+
+.bookstore-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.bookstore-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.bookstore-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.bookstore-radio-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.bookstore-radio-item:hover {
+    background: var(--muted);
+}
+
+.bookstore-radio-item input[type="radio"] {
+    accent-color: var(--primary);
+}
+
+.bookstore-total {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
+}
+
+.bookstore-empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted-foreground);
+}
+
+.bookstore-empty-state h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.bookstore-navigation {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.bookstore-search-form {
+    background: var(--card);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.bookstore-book-image {
+    border-radius: var(--radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.bookstore-book-image:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .bookstore-container {
+        padding: 1rem;
+    }
+
+    .bookstore-header h2 {
+        font-size: 2rem;
+    }
+
+    .bookstore-table {
+        font-size: 0.875rem;
+    }
+
+    .bookstore-table th,
+    .bookstore-table td {
+        padding: 0.5rem;
+    }
+
+    .bookstore-search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .bookstore-navigation {
+        flex-direction: column;
+    }
+}
