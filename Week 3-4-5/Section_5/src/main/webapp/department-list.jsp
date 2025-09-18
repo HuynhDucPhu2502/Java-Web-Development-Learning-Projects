@@ -24,7 +24,8 @@
     </style>
 </head>
 <body>
-<a href="phongbanform.jsp">Thêm phòng ban</a>
+<a href="department-form.jsp">Thêm phòng ban</a>
+<a href="employees">Danh sách nhân viên</a>
 <form method="post" action="departments">
     <label>Tìm kiếm phòng ban</label>
     <input type="text" name="name">
@@ -51,8 +52,6 @@
                         <input type="hidden" name="id" value="${d.id}">
                         <input type="submit" value="Delete" class="btn">
                     </form>
-
-                    <a href="" class="btn">Employees</a>
                 </div>
             </td>
 

@@ -1,0 +1,62 @@
+package me.huynhducphu.midterm1.dao;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import me.huynhducphu.midterm1.model.Department;
+import me.huynhducphu.midterm1.model.Employee;
+import me.huynhducphu.midterm1.util.JpaUtil;
+
+import java.util.List;
+
+/**
+ * Admin 9/16/2025
+ **/
+public class EmployeeDAO extends GenericDAO<Employee> {
+
+    public EmployeeDAO() {
+        super(Employee.class);
+    }
+
+    public List<Employee> findAll() {
+        EntityManager em = JpaUtil.getEmf().createEntityManager();
+
+        try {
+            String jpql = """
+                    SELECT e FROM Employee e
+                    """;
+
+            TypedQuery<Employee> query = em.createQuery(jpql, Employee.class);
+
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return null;
+    }
+
+    public void update(Long id, Employee newEmployee) {
+        EntityManager em = JpaUtil.getEmf().createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+
+            Employee employee = em.find(Employee.class, id);
+            if (employee != null) {
+                employee.setName(newEmployee.getName());
+                employee.setSalary(newEmployee.getSalary());
+                employee.setDepartment(newEmployee.getDepartment());
+            }
+            department.setName(Employee.getName());
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+}

@@ -14,16 +14,36 @@
     <title>Title</title>
 </head>
 <body>
-<a href="departments">Quay lại</a>
-<form action="departments" method="post">
+<a href="employees">Quay lại</a>
+<form action="employees" method="post">
     <input type="hidden" name="action" value="SAVE">
 
-    <c:if test="${not empty department}">
-        <input type="hidden" name="id" value="${department.id}">
+    <c:if test="${not empty employee}">
+        <input type="hidden" name="id" value="${employee.id}">
     </c:if>
 
-    <label>Name:</label>
-    <input type="input" name="name" value="${department.name}">
+    <div>
+        <label>Name:</label>
+        <input type="input" name="name" value="${employee.name}">
+    </div>
+
+    <div>
+        <label>Salary:</label>
+        <input type="input" name="salary" value="${employee.salary}">
+    </div>
+
+    <div>
+        <label>Department Name:</label>
+        <select name="departmentId">
+            <c:forEach items="${departments}" var="d">
+                <option value="${d.id}"
+                <c:if test="${d.id == employee.department.id}">selected</c:if>">
+                ${d.name}
+                </option>
+            </c:forEach>
+        </select>
+    </div>
+
     <input type="submit" value="Save">
 </form>
 </body>

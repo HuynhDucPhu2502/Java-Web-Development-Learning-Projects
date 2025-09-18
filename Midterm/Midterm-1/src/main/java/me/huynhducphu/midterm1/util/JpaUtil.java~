@@ -1,0 +1,15 @@
+package me.huynhducphu.midterm1.util;
+
+import jakarta.persistence.EntityManagerFactory;
+import lombok.Getter;
+
+/**
+ * Admin 9/16/2025
+ **/
+public class JpaUtil {
+
+    @Getter
+    private static EntityManagerFactory emf;
+
+
+}

@@ -1,0 +1,70 @@
+package me.huynhducphu.section_5.dao;
+
+import jakarta.persistence.EntityManager;
+import me.huynhducphu.section_5.model.Department;
+import me.huynhducphu.section_5.util.JpaUtil;
+
+/**
+ * Admin 9/16/2025
+ **/
+public class DeparmentDAO {
+
+    public void save(Department department) {
+        EntityManager em = JpaUtil.getEmf().createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(department);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Department findById(Long departmentId) {
+        EntityManager em = JpaUtil.getEmf().createEntityManager();
+        try {
+            return em.find(Department.class, departmentId);
+        } finally {
+            em.close();
+        }
+    }
+
+    public void update(Long departmentId, Department newDepartment) {
+        EntityManager em = JpaUtil.getEmf().createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+
+            Department department = em.find(Department.class, departmentId);
+            department.setName(newDepartment.getName());
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void delete(Long departmentId) {
+        EntityManager em = JpaUtil.getEmf().createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+
+            Department department = em.find(Department.class, departmentId);
+            em.remove(department);
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+
+}

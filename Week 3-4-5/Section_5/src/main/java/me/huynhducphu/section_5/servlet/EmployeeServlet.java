@@ -1,5 +1,88 @@
-package me.huynhducphu.section_5.servlet;/**
- *  Admin 9/16/2025
- *  
-**/public class EmployeeServlet {
+package me.huynhducphu.section_5.servlet;
+
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import me.huynhducphu.section_5.dao.DepartmentDAO;
+import me.huynhducphu.section_5.dao.EmployeeDAO;
+import me.huynhducphu.section_5.model.Employee;
+
+import java.io.IOException;
+
+/**
+ * Admin 9/16/2025
+ **/
+@WebServlet("/employees")
+public class EmployeeServlet extends HttpServlet {
+
+    private EmployeeDAO employeeDAO;
+    private DepartmentDAO departmentDAO;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        employeeDAO = new EmployeeDAO();
+        departmentDAO = new DepartmentDAO();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+
+
+        if (action != null) {
+            req.setAttribute("departments", departmentDAO.findAll());
+
+            if (action.equals("EDIT")) {
+                String id = req.getParameter("id");
+                Employee employee = employeeDAO.findById(Long.parseLong(id));
+                req.setAttribute("employee", employee);
+            }
+
+            req.getRequestDispatcher("employee-form.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("employees", employeeDAO.findAll());
+            req.getRequestDispatcher("employee-list.jsp").forward(req, resp);
+        }
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+
+        if (action != null) {
+            switch (action) {
+                case "DELETE" -> {
+                    String id = req.getParameter("id");
+                    employeeDAO.delete(Long.parseLong(id));
+
+                    resp.sendRedirect("employees");
+                }
+
+                case "SAVE" -> {
+                    String id = req.getParameter("id");
+
+                    String name = req.getParameter("name");
+                    double salary = Double.parseDouble(req.getParameter("salary"));
+                    Long deptId = Long.parseLong(req.getParameter("departmentId"));
+                    var department = departmentDAO.findById(deptId);
+
+
+                    if (id != null) {
+                        employeeDAO.update(Long.parseLong(id), new Employee(null, name, salary, department));
+                    } else {
+                        employeeDAO.save(new Employee(null, name, salary, department));
+                    }
+
+                    resp.sendRedirect("employees");
+                }
+
+            }
+        }
+
+
+    }
 }

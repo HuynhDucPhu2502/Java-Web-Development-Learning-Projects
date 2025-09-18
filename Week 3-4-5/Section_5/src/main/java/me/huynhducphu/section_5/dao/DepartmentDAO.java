@@ -1,32 +1,51 @@
 package me.huynhducphu.section_5.dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import me.huynhducphu.section_5.model.Department;
 import me.huynhducphu.section_5.util.JpaUtil;
+
+import java.util.List;
 
 /**
  * Admin 9/16/2025
  **/
-public class DeparmentDAO {
+public class DepartmentDAO extends GenericDAO<Department> {
 
-    public void save(Department department) {
+    public DepartmentDAO() {
+        super(Department.class);
+    }
+
+    public List<Department> findAll() {
         EntityManager em = JpaUtil.getEmf().createEntityManager();
 
         try {
-            em.getTransaction().begin();
-            em.persist(department);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
+            String jpql = """
+                    SELECT d FROM Department d
+                    """;
+
+            TypedQuery<Department> query = em.createQuery(jpql, Department.class);
+            return query.getResultList();
         } finally {
             em.close();
         }
+
     }
 
-    public Department findById(Long departmentId) {
+
+    public List<Department> findDepartmentByName(String name) {
         EntityManager em = JpaUtil.getEmf().createEntityManager();
+
         try {
-            return em.find(Department.class, departmentId);
+            String jpql = """
+                    SELECT d FROM Department d
+                    WHERE d.name LIKE :name
+                    """;
+
+            TypedQuery<Department> query = em.createQuery(jpql, Department.class);
+            query.setParameter("name", "%" + name + "%");
+
+            return query.getResultList();
         } finally {
             em.close();
         }
@@ -40,23 +59,6 @@ public class DeparmentDAO {
 
             Department department = em.find(Department.class, departmentId);
             department.setName(newDepartment.getName());
-
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-    }
-
-    public void delete(Long departmentId) {
-        EntityManager em = JpaUtil.getEmf().createEntityManager();
-
-        try {
-            em.getTransaction().begin();
-
-            Department department = em.find(Department.class, departmentId);
-            em.remove(department);
 
             em.getTransaction().commit();
         } catch (Exception e) {

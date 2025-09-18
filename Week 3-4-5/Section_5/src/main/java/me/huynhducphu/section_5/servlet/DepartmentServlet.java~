@@ -1,0 +1,92 @@
+package me.huynhducphu.section_5.servlet;
+
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import me.huynhducphu.section_5.dao.DepartmentDAO;
+import me.huynhducphu.section_5.model.Department;
+
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Admin 9/16/2025
+ **/
+@WebServlet("/departments")
+public class DepartmentServlet extends HttpServlet {
+
+    private DepartmentDAO departmentDAO;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        departmentDAO = new DepartmentDAO();
+    }
+
+    // lấy full phòng ban
+    // tìm kiếm phòng ban
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        // /departments?action=UPDATE&id=1
+        String action = req.getParameter("action");
+        if (action != null && action.equals("EDIT")) {
+            String id = req.getParameter("id");
+            Department department = departmentDAO.findById(Long.parseLong(id));
+            req.setAttribute("department", department);
+            req.getRequestDispatcher("department-form.jsp").forward(req, resp);
+            return;
+        }
+
+        // /departments?name=huynhducphu
+        String name = req.getParameter("name");
+        if (name != null) // Lấy các phòng ban cùng tên
+            req.setAttribute("departments", departmentDAO.findDepartmentByName(name));
+        else // Lấy tất ca phòng ban
+            req.setAttribute("departments", departmentDAO.findAll());
+
+        req.getRequestDispatcher("department-list.jsp").forward(req, resp);
+    }
+
+    // thêm phòng ban
+    // sửa phòng ban
+    // xóa phòng ban
+    // <form> của HTML support POST và GET thôi, (Form la truyen FormData, k phai HTTP)
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+
+        if (action != null) {
+            switch (action) {
+                case "DELETE": {
+                    String id = req.getParameter("id");
+                    departmentDAO.delete(Long.parseLong(id));
+
+                    resp.sendRedirect("departments");
+                }
+
+                case "SAVE": {
+                    String name = req.getParameter("name");
+                    String id = req.getParameter("id");
+
+                    if (id != null) {
+                        departmentDAO
+                                .update(Long.parseLong(id), new Department(null, name, null));
+                    } else {
+                        var department = new Department(null, name, null);
+                        departmentDAO.save(department);
+                    }
+
+
+                    resp.sendRedirect("departments");
+                }
+
+
+            }
+        }
+
+    }
+
+}

@@ -1,5 +1,29 @@
-package me.huynhducphu.section_5.model;/**
- *  Admin 9/16/2025
- *  
-**/public class Department {
+package me.huynhducphu.section_5.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+/**
+ * Admin 9/16/2025
+ **/
+@Entity
+@Table(name = "departments")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Department {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Employee> employees;
 }
