@@ -37,11 +37,13 @@ public class TinTucServlet extends HttpServlet {
         // Nếu có action thì qua trang form
         String action = req.getParameter("action");
         if (action != null) {
+
             if (action.equalsIgnoreCase("UPDATE")) {
                 Long id = Long.parseLong(req.getParameter("id"));
                 TinTuc tinTuc = tinTucDAO.findById(id);
                 req.setAttribute("tinTuc", tinTuc);
             }
+
             req.getRequestDispatcher("tintuc-form.jsp").forward(req, resp);
             return;
         }
@@ -79,6 +81,9 @@ public class TinTucServlet extends HttpServlet {
                     String tieuDe = req.getParameter("tieuDe");
                     String noiDungTT = req.getParameter("noiDungTT");
                     String lienKet = req.getParameter("lienKet");
+
+                    if (!lienKet.matches("^http://\\w+$")) return;
+                    if (!noiDungTT.matches("^.{1,255}$")) return;
 
                     Long maDm = Long.parseLong(req.getParameter("danhMucId"));
                     DanhMuc danhMuc = danhMucDAO.findById(maDm);

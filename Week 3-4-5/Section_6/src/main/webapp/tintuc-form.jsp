@@ -15,7 +15,7 @@
 </head>
 <body>
 <a href="tintuc" style="display: block">Danh sách tin tức</a>
-<form action="tintuc" method="post">
+<form action="tintuc" method="post" id="tinTucForm">
     <input name="action" value="SAVE" type="hidden">
     <c:if test="${not empty tinTuc}">
         <input type="hidden" name="tinTucId" value="${tinTuc.maTT}"/>
@@ -23,15 +23,15 @@
 
     <div>
         <label>Tiêu đề</label>
-        <input name="tieuDe" type="text" value="${tinTuc.tieuDe}"/>
+        <input name="tieuDe" type="text" value="${tinTuc.tieuDe}" required/>
     </div>
     <div>
         <label>Nội dung tin tức</label>
-        <textarea name="noiDungTT" type="text">${tinTuc.noiDungTT}</textarea>
+        <input name="noiDungTT" type="text"${tinTuc.noiDungTT} id="noiDungTT" required/>
     </div>
     <div>
         <label>Liên kết</label>
-        <input name="lienKet" type="text" value="${tinTuc.lienKet}"/>
+        <input name="lienKet" type="text" value="${tinTuc.lienKet}" id="lienKet" required/>
     </div>
     <div>
         <label>Danh mục:</label>
@@ -43,8 +43,30 @@
         </select>
     </div>
 
-
     <button type="submit">Tạo</button>
 </form>
+
+<script>
+    document.getElementById("tinTucForm").addEventListener("submit", (e) => {
+        const noiDung = document.getElementById("noiDungTT").value.trim();
+        const lienKet = document.getElementById("lienKet").value.trim();
+
+        const regexLienKet = /^http:\/\/\w+$/
+        const regexNoiDung = /^.{1,255}$/
+
+        if (!regexLienKet.test(lienKet)) {
+            alert("Liên kết không hợp lệ");
+            e.preventDefault();
+            return;
+        }
+
+        if (!regexNoiDung.test(noiDung)) {
+            alert("Nội dung tin tức không hợp lệ");
+            e.preventDefault();
+            return;
+        }
+    })
+</script>
+
 </body>
 </html>
