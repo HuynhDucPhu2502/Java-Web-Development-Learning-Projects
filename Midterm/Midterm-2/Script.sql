@@ -1,4 +1,4 @@
-INSERT INTO danhmuc (TENDANHMUCH, NGUOIQUANLY, GHICHU)
+INSERT INTO DANHMUC (TENDANHMUC, NGUOIQUANLY, GHICHU)
 VALUES ('Thể thao', 'Nguyễn Văn A', 'Danh mục tin tức thể thao'),
        ('Giáo dục', 'Trần Thị B', 'Tin tức về giáo dục'),
        ('Công nghệ', 'Lê Văn C', 'Danh mục tin tức công nghệ'),

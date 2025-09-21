@@ -1,0 +1,39 @@
+package me.huynhducphu.midterm2.dao;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import me.huynhducphu.midterm2.model.DanhMuc;
+import me.huynhducphu.midterm2.util.JpaUtil;
+
+import java.util.List;
+
+/**
+ * Admin 9/21/2025
+ **/
+public class DanhMucDAO extends GenericDAO<DanhMuc> {
+
+    public DanhMucDAO() {
+        super(DanhMuc.class);
+    }
+
+    public List<T> findAll() {
+        EntityManager em = JpaUtil.getEmf().createEntityManager();
+
+        try {
+            String jpql = """
+                    SELECT e
+                    FROM %s e
+                    """.formatted(type.getSimpleName());
+
+            TypedQuery<T> query = em.createQuery(jpql, type);
+
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return null;
+    }
+}

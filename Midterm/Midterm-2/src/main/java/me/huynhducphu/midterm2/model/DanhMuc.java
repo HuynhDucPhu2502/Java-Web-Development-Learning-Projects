@@ -1,0 +1,38 @@
+package me.huynhducphu.midterm2.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+/**
+ * Admin 9/21/2025
+ **/
+@Entity
+@Table(name = "DANHMUC")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class DanhMuc {
+
+    @Id
+    @Column(name = "MADM")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long maDm;
+
+    @Column(name = "TENDANHMUC")
+    private String tenDanhMuc;
+
+    @Column(name = "NGUOIQUANLY")
+    private String nguoiQuanLy;
+
+    @Column(name = "GHICHU")
+    private String ghiChu;
+
+    @OneToMany(mappedBy = "danhMuc", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<TinTuc> tinTucList;
+
+}

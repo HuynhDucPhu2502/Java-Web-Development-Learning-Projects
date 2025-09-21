@@ -1,0 +1,63 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Admin
+  Date: 9/21/2025
+  Time: 4:49 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+
+<a href="tintuc?action=CREATE" style="display: block">Tạo tin tức mới</a>
+<a href="danhmuc" style="display: block">Qua trang danh mục</a>
+
+<form action="tintuc" method="get">
+    <select name="tenDanhMucSearch">
+        <option value="ALL">Tất ca</option>
+        <c:forEach items="${listDanhMuc}" var="dm">
+            <option value="${dm.tenDanhMuc}">${dm.tenDanhMuc}</option>
+        </c:forEach>
+    </select>
+    <button type="submit">Tim kiem</button>
+</form>
+
+<table border="1" width="80%">
+    <tr>
+        <th>maTT</th>
+        <th>tieuDe</th>
+        <th>noiDungTT</th>
+        <th>lienKet</th>
+        <th>tenDanhMuc</th>
+        <th>Hành động</th>
+    </tr>
+
+    <c:forEach items="${listTinTuc}" var="tt">
+        <tr>
+            <td>${tt.maTT}</td>
+            <td>${tt.tieuDe}</td>
+            <td>${tt.noiDungTT}</td>
+            <td>${tt.lienKet}</td>
+            <td>${tt.danhMuc.tenDanhMuc}</td>
+            <td>
+                <a href="tintuc?action=EDIT&id=${tt.maTT}">Chỉnh Sửa</a>
+                <form action="tintuc" method="post">
+                    <input type="hidden" name="action" value="DELETE">
+                    <input type="hidden" name="id" value="${tt.maTT}">
+                    <button type="submit">Xóa</button>
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+
+</table>
+
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Admin
+  Date: 9/21/2025
+  Time: 4:49 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+
+<a href="danhmuc-form.jsp" style="display: block">Tạo danh mục mới</a>
+<a href="tintuc" style="display: block">Qua trang tin tức</a>
+
+<table border="1" width="80%">
+    <tr>
+        <th>maDm</th>
+        <th>tenDanhMuc</th>
+        <th>nguoiQuanLy</th>
+        <th>ghiChu</th>
+        <th>Hành động</th>
+    </tr>
+
+    <c:forEach items="${listDanhMuc}" var="dm">
+        <tr>
+            <td>${dm.maDm}</td>
+            <td>${dm.tenDanhMuc}</td>
+            <td>${dm.nguoiQuanLy}</td>
+            <td>${dm.ghiChu}</td>
+            <td>
+                <a href="danhmuc?action=EDIT&id=${dm.maDm}">Chỉnh Sửa</a>
+                <form action="danhmuc" method="post">
+                    <input type="hidden" name="action" value="DELETE">
+                    <input type="hidden" name="id" value="${dm.maDm}">
+                    <button type="submit">Xóa</button>
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+
+</table>
+
+
+</body>
+</html>
