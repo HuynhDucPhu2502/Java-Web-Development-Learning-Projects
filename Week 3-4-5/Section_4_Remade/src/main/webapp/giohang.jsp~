@@ -1,0 +1,74 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Admin
+  Date: 9/23/2025
+  Time: 5:15 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+
+<a href="products">Quay lại danh sách sản phẩm</a>
+<h1>Giỏ hàng</h1>
+<table border="1" width="80%">
+    <tr>
+        <th>Id</th>
+        <th>model</th>
+        <th>price</th>
+        <th>description</th>
+        <th>quantity</th>
+        <th>subTotal</th>
+        <th>actions</th>
+    </tr>
+
+    <c:forEach items="${cart.items}" var="item">
+        <tr>
+            <td>${item.product.id}</td>
+            <td>${item.product.model}</td>
+            <td>${item.product.price}</td>
+            <td>${item.product.description}</td>
+            <td>${item.quantity}</td>
+            <td>
+                    ${item.subTotal}
+            </td>
+            <td>
+                <form action="carts?action=REMOVE&id=${item.product.id}" method="post">
+                    <button>Xóa sản phẩm</button>
+                </form>
+                <form action="carts?action=UPDATE-QUANTITY&id=${item.product.id}" method="post">
+                    <label>Số lượng mới:</label>
+                    <input type="number" name="quantity" value="${item.quantity}">
+                    <button type="submit">Cập nhật so luong</button>
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+
+</table>
+
+<p>Tổng tiền: ${cart.total}</p>
+
+<form>
+    <div>
+        <label>Họ tên:</label>
+        <input name="name">
+    </div>
+    <div>
+        <label>Địa chỉ:</label>
+        <input name="address">
+    </div>
+
+
+    <button>Thanh toán</button>
+</form>
+
+
+</body>
+</html>

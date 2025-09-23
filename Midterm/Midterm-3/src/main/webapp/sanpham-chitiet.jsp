@@ -1,0 +1,21 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Admin
+  Date: 9/23/2025
+  Time: 11:11 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Chi tiết sản phẩm</title>
+</head>
+<body>
+<a href="products">Quay lại</a>
+<h1>Chi tiết sản phẩm</h1>
+<p>ID: ${p.id}</p>
+<p>Model: ${p.model}</p>
+<p>Price: ${p.price}</p>
+<p>Description: ${p.description}</p>
+</body>
+</html>

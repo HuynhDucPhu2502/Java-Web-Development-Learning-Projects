@@ -1,0 +1,48 @@
+package me.huynhducphu.section_4_remade.dao;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import me.huynhducphu.section_4_remade.util.JpaUtil;
+
+import java.util.List;
+
+/**
+ * Admin 9/23/2025
+ **/
+public class GenericDAO<T> {
+
+    private Class<T> type;
+
+    public GenericDAO(Class<T> type) {
+        this.type = type;
+    }
+
+    public List<T> findAll() {
+
+        try (EntityManager em = JpaUtil.getEmf().createEntityManager()) {
+            String jpql = """
+                    SELECT e 
+                    FROM %s e
+                    """.formatted(type.getSimpleName());
+
+            TypedQuery<T> query = em.createQuery(jpql, type);
+            return query.getResultList();
+        }
+
+    }
+
+    public T findById(Long id) {
+        try (EntityManager em = JpaUtil.getEmf().createEntityManager()) {
+            return em.find(type, id);
+        }
+    }
+
+    public void save(T entity) {
+        try (EntityManager em = JpaUtil.getEmf().createEntityManager()) {
+            em.getTransaction().begin();
+            em.merge(entity);
+            em.getTransaction().commit();
+        }
+    }
+
+}

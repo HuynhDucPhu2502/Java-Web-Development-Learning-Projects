@@ -1,0 +1,47 @@
+package me.huynhducphu.section_4_remade.servlet;
+
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import me.huynhducphu.section_4_remade.dao.ProductDAO;
+import me.huynhducphu.section_4_remade.model.Product;
+
+import java.io.IOException;
+
+/**
+ * Admin 9/23/2025
+ **/
+@WebServlet("/products")
+public class ProductServlet extends HttpServlet {
+
+    private ProductDAO productDAO;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        productDAO = new ProductDAO();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String productIdStr = req.getParameter("id");
+
+        if (productIdStr != null) {
+            Long productId = Long.parseLong(req.getParameter("id"));
+            req.setAttribute("p", productDAO.findById(productId));
+            req.getRequestDispatcher("chitiet-sanpham.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("productList", productDAO.findAll());
+            req.getRequestDispatcher("sanpham-list.jsp").forward(req, resp);
+        }
+
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
+}

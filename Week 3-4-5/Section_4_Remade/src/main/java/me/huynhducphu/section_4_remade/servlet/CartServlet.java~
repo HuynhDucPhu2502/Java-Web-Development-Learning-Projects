@@ -1,0 +1,110 @@
+package me.huynhducphu.section_4_remade.servlet;
+
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import me.huynhducphu.section_4_remade.bean.CartBean;
+import me.huynhducphu.section_4_remade.dao.OrderDAO;
+import me.huynhducphu.section_4_remade.dao.ProductDAO;
+import me.huynhducphu.section_4_remade.model.Order;
+import me.huynhducphu.section_4_remade.model.Product;
+
+import java.io.IOException;
+
+/**
+ * Admin 9/23/2025
+ **/
+@WebServlet("/carts")
+public class CartServlet extends HttpServlet {
+
+    private ProductDAO productDAO;
+    private OrderDAO orderDAO;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        productDAO = new ProductDAO();
+        orderDAO = new OrderDAO();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        CartBean cartBean = (CartBean) session.getAttribute("cart");
+        if (cartBean == null) {
+            cartBean = new CartBean();
+            session.setAttribute("cart", cartBean);
+        }
+
+        req.setAttribute("cart", cartBean);
+        req.getRequestDispatcher("giohang.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        CartBean cartBean = (CartBean) session.getAttribute("cart");
+        if (cartBean == null) {
+            cartBean = new CartBean();
+            session.setAttribute("cart", cartBean);
+        }
+
+
+        String action = req.getParameter("action");
+
+        if (action != null) {
+            switch (action) {
+                case "ADD" -> {
+                    String idStr = req.getParameter("id");
+                    Long id = Long.parseLong(idStr);
+
+                    Product product = productDAO.findById(id);
+                    if (product != null) cartBean.addProduct(product);
+
+                    resp.sendRedirect("products");
+                }
+
+                case "REMOVE" -> {
+                    String idStr = req.getParameter("id");
+                    Long id = Long.parseLong(idStr);
+
+                    cartBean.removeProduct(id);
+                    resp.sendRedirect("giohang.jsp");
+                }
+
+                case "UPDATE-QUANTITY" -> {
+                    String idStr = req.getParameter("id");
+                    Long id = Long.parseLong(idStr);
+
+                    String newQuantityStr = req.getParameter("quantity");
+                    Integer newQuantity = Integer.parseInt(newQuantityStr);
+
+                    cartBean.updateQuantity(id, newQuantity);
+                    resp.sendRedirect("giohang.jsp");
+                }
+
+                case "CHECKOUT" -> {
+                    String name = req.getParameter("name");
+                    String address = req.getParameter("address");
+
+                    Order order = new Order();
+                    order.setName(name);
+                    order.setAddress(address);
+                    order.setTotal(cartBean.getTotal());
+
+                    orderDAO.save(order);
+
+                    session.setAttribute("cart", null);
+                    resp.sendRedirect("giohang.jsp");
+                }
+
+
+            }
+        }
+
+
+    }
+}

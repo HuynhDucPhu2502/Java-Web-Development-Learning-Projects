@@ -1,0 +1,66 @@
+package me.huynhducphu.section_4_remade.bean;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import me.huynhducphu.section_4_remade.model.Product;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Admin 9/23/2025
+ **/
+@AllArgsConstructor
+@Data
+public class CartBean {
+
+    private List<CartItemBean> items;
+
+    public CartBean() {
+        items = new ArrayList<>();
+    }
+
+    public void addProduct(Product p) {
+        CartItemBean item = items
+                .stream()
+                .filter(x -> x.getProduct().getId().equals(p.getId()))
+                .findFirst()
+                .orElse(null);
+
+        // Khác null => item co trong gio hang
+        if (item != null) {
+            item.setQuantity(item.getQuantity() + 1);
+        } else {
+            CartItemBean newItem = new CartItemBean(p, 1);
+            items.add(newItem);
+        }
+    }
+
+    public void removeProduct(Long id) {
+        items.removeIf(x -> x.getProduct().getId() == id);
+    }
+
+    public void updateQuantity(Long id, int newQuantity) {
+        CartItemBean item = items
+                .stream()
+                .filter(x -> x.getProduct().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (newQuantity <= 0) {
+            removeProduct(id);
+        } else {
+            item.setQuantity(newQuantity);
+        }
+    }
+
+    public double getTotal() {
+        return items
+                .stream()
+                .mapToDouble(x -> x.getSubTotal())
+                .sum();
+    }
+
+
+}

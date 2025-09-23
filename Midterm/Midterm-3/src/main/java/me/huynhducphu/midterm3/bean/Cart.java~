@@ -1,0 +1,59 @@
+package me.huynhducphu.midterm3.bean;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import me.huynhducphu.midterm3.model.Product;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Admin 9/23/2025
+ **/
+@AllArgsConstructor
+@Data
+public class Cart {
+
+    private List<CartItem> items;
+
+    public Cart() {
+        items = new ArrayList<>();
+    }
+
+    public void add(Product product) {
+        CartItem existedItem = items
+                .stream()
+                .filter(x -> x.getProduct().getId().equals(product.getId()))
+                .findFirst()
+                .orElse(null);
+
+        if (existedItem != null) {
+            existedItem.setQuantity(existedItem.getQuantity() + 1);
+        } else {
+            CartItem cartItem = new CartItem(product, 1);
+            items.add(cartItem);
+        }
+    }
+
+    public void remove(Long id) {
+        items.removeIf(x -> x.getProduct().getId().equals(id));
+    }
+
+    public void updateQuantity(Long id, int newQuantity) {
+        CartItem existedItem = items
+                .stream()
+                .filter(x -> x.getProduct().getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (existedItem == null) return;
+
+        if (newQuantity <= 0) remove(id);
+        else {
+            existedItem.setQuantity(newQuantity);
+        }
+    }
+
+    public double getTotal)
+}

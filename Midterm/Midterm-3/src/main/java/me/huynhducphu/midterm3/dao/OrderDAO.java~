@@ -1,0 +1,28 @@
+package me.huynhducphu.midterm3.dao;
+
+import jakarta.persistence.EntityManager;
+import me.huynhducphu.midterm3.model.Order;
+import me.huynhducphu.midterm3.util.JpaUtil;
+
+/**
+ * Admin 9/23/2025
+ **/
+public class OrderDAO {
+
+    public Order save(Order order) {
+        EntityManager em = JpaUtil.getEmf().createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.merge(order)
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return null;
+    }
+
+}
