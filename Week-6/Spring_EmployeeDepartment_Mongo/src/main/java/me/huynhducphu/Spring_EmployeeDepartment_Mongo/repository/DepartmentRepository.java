@@ -11,5 +11,5 @@ import java.util.List;
  **/
 public interface DepartmentRepository extends MongoRepository<Department, String> {
 
-
+    
 }

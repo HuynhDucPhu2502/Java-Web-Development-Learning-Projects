@@ -1,33 +1,64 @@
-import type React from "react";
+"use client";
 
-import { useState } from "react";
+import type React from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Department } from "@/types";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import type { DepartmentRequest, DepartmentResponse } from "@/types";
 
 interface DepartmentFormProps {
-  onSubmit: (department: Omit<Department, "id">) => void;
+  onSubmit: (department: DepartmentRequest) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editDepartment?: DepartmentResponse | null;
+  onEdit?: (departmentId: string, department: DepartmentRequest) => void;
 }
 
-export function DepartmentForm({ onSubmit }: DepartmentFormProps) {
+export function DepartmentForm({
+  onSubmit,
+  open,
+  onOpenChange,
+  editDepartment,
+  onEdit,
+}: DepartmentFormProps) {
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    if (editDepartment) {
+      setName(editDepartment.name);
+    } else {
+      setName("");
+    }
+  }, [editDepartment]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim()) {
-      onSubmit({ name: name.trim() });
+      if (editDepartment && onEdit) {
+        onEdit(editDepartment.id, { name: name.trim() });
+      } else {
+        onSubmit({ name: name.trim() });
+      }
       setName("");
+      onOpenChange(false);
     }
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Thêm Phòng Ban Mới</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>
+            {editDepartment ? "Chỉnh Sửa Phòng Ban" : "Thêm Phòng Ban Mới"}
+          </DialogTitle>
+        </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="department-name">Tên Phòng Ban</Label>
@@ -41,10 +72,10 @@ export function DepartmentForm({ onSubmit }: DepartmentFormProps) {
             />
           </div>
           <Button type="submit" className="w-full">
-            Thêm Phòng Ban
+            {editDepartment ? "Cập Nhật Phòng Ban" : "Thêm Phòng Ban"}
           </Button>
         </form>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   );
 }

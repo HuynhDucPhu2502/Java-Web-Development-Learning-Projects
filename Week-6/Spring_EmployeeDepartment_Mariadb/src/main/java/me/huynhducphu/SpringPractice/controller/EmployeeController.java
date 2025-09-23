@@ -33,7 +33,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Employee> findByName(@PathVariable String name) {
+    public ResponseEntity<List<Employee>> findByName(@PathVariable String name) {
         return ResponseEntity.ok(employeeService.findByName(name));
     }
 

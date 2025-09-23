@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,47 +20,87 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
-import type { Department, Employee } from "@/types";
+import type {
+  DepartmentResponse,
+  EmployeeRequest,
+  EmployeeResponse,
+} from "@/types";
 
 interface EmployeeFormProps {
-  departments: Department[];
-  onSubmit: (employee: Omit<Employee, "id">) => void;
+  departments: DepartmentResponse[];
+  onSubmit: (employee: EmployeeRequest) => void;
+  editEmployee?: EmployeeResponse | null;
+  onUpdate?: (id: string, employee: EmployeeRequest) => void;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export function EmployeeForm({ departments, onSubmit }: EmployeeFormProps) {
+export function EmployeeForm({
+  departments,
+  onSubmit,
+  editEmployee,
+  onUpdate,
+  isOpen,
+  onOpenChange,
+}: EmployeeFormProps) {
   const [name, setName] = useState("");
   const [salary, setSalary] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [open, setOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const selectedDepartment = departments.find((d) => d.id === departmentId);
-
-    if (name.trim() && salary && selectedDepartment) {
-      onSubmit({
-        name: name.trim(),
-        salary: Number.parseFloat(salary),
-        department: selectedDepartment,
-      });
+  useEffect(() => {
+    if (editEmployee) {
+      setName(editEmployee.name);
+      setSalary(editEmployee.salary.toString());
+      setDepartmentId(editEmployee.departmentId);
+    } else {
       setName("");
       setSalary("");
       setDepartmentId("");
-      setOpen(false);
+    }
+  }, [editEmployee]);
+
+  const modalOpen = isOpen !== undefined ? isOpen : open;
+  const setModalOpen = onOpenChange || setOpen;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (name.trim() && salary && departmentId) {
+      const employeeData = {
+        name: name.trim(),
+        salary: Number.parseFloat(salary),
+        departmentId: departmentId,
+      };
+
+      if (editEmployee && onUpdate) {
+        onUpdate(editEmployee.id, employeeData);
+      } else {
+        onSubmit(employeeData);
+      }
+
+      setName("");
+      setSalary("");
+      setDepartmentId("");
+      setModalOpen(false);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Thêm Nhân Viên
-        </Button>
-      </DialogTrigger>
+    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+      {isOpen === undefined && (
+        <DialogTrigger asChild>
+          <Button>
+            <Plus className="h-4 w-4 mr-2" />
+            Thêm Nhân Viên
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Thêm Nhân Viên Mới</DialogTitle>
+          <DialogTitle>
+            {editEmployee ? "Chỉnh Sửa Nhân Viên" : "Thêm Nhân Viên Mới"}
+          </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -110,7 +150,7 @@ export function EmployeeForm({ departments, onSubmit }: EmployeeFormProps) {
           </div>
 
           <Button type="submit" className="w-full">
-            Thêm Nhân Viên
+            {editEmployee ? "Cập Nhật Nhân Viên" : "Thêm Nhân Viên"}
           </Button>
         </form>
       </DialogContent>

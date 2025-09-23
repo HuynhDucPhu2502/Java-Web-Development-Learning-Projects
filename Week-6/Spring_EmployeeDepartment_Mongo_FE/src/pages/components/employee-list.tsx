@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,33 +12,61 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Edit, Trash2 } from "lucide-react";
 import { EmployeeForm } from "./employee-form";
-import type { Employee, Department } from "@/types";
+import type {
+  EmployeeResponse,
+  DepartmentResponse,
+  EmployeeRequest,
+} from "@/types";
 
 interface EmployeeListProps {
-  employees: Employee[];
-  departments: Department[];
-  onAddEmployee: (employee: Omit<Employee, "id">) => void;
+  employees: EmployeeResponse[];
+  departments: DepartmentResponse[];
+  onAddEmployee: (employee: EmployeeRequest) => void;
+  onEditEmployee: (id: string, employee: EmployeeRequest) => void;
+  onDeleteEmployee: (id: string) => void;
 }
 
 export function EmployeeList({
   employees,
   departments,
   onAddEmployee,
+  onEditEmployee,
+  onDeleteEmployee,
 }: EmployeeListProps) {
+  const [editingEmployee, setEditingEmployee] =
+    useState<EmployeeResponse | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const formatSalary = (salary: number) => {
     return salary.toLocaleString("vi-VN") + " đ";
   };
 
-  const handleEdit = (employee: Employee) => {
-    // TODO: Implement edit logic
-    console.log("Edit employee:", employee);
+  const handleEdit = (employee: EmployeeResponse) => {
+    setEditingEmployee(employee);
+    setIsEditModalOpen(true);
   };
 
-  const handleDelete = (employee: Employee) => {
-    // TODO: Implement delete logic
-    console.log("Delete employee:", employee);
+  const handleUpdate = (id: string, employee: EmployeeRequest) => {
+    onEditEmployee(id, employee);
+    setEditingEmployee(null);
+    setIsEditModalOpen(false);
+  };
+
+  const handleDelete = (employee: EmployeeResponse) => {
+    onDeleteEmployee(employee.id);
   };
 
   return (
@@ -71,7 +100,7 @@ export function EmployeeList({
                     {formatSalary(employee.salary)}
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline">{employee.department.name}</Badge>
+                    <Badge variant="outline">{employee.departmentName}</Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
@@ -82,13 +111,34 @@ export function EmployeeList({
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(employee)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Xác nhận xóa nhân viên
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Bạn có chắc chắn muốn xóa nhân viên "
+                              {employee.name}"? Hành động này không thể hoàn
+                              tác.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Hủy</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDelete(employee)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Xóa
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -97,6 +147,17 @@ export function EmployeeList({
           </Table>
         </div>
       </CardContent>
+
+      {isEditModalOpen && (
+        <EmployeeForm
+          departments={departments}
+          onSubmit={onAddEmployee}
+          editEmployee={editingEmployee}
+          onUpdate={handleUpdate}
+          isOpen={isEditModalOpen}
+          onOpenChange={setIsEditModalOpen}
+        />
+      )}
     </Card>
   );
 }

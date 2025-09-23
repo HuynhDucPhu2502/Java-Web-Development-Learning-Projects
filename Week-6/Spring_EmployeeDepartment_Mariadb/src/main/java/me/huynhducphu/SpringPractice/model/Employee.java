@@ -11,6 +11,8 @@ import java.util.List;
  * Admin 9/16/2025
  *
  **/
+// Jpa
+
 @Entity
 @Table(name = "employees")
 @AllArgsConstructor

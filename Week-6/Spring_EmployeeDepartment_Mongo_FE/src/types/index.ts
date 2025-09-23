@@ -1,11 +1,22 @@
-export interface Department {
+export interface DepartmentResponse {
   id: string;
   name: string;
 }
 
-export interface Employee {
+export interface EmployeeResponse {
   id: string;
   name: string;
   salary: number;
-  department: Department;
+  departmentName: string;
+  departmentId: string;
+}
+
+export interface DepartmentRequest {
+  name: string;
+}
+
+export interface EmployeeRequest {
+  name: string;
+  salary: number;
+  departmentId: string;
 }
