@@ -5,6 +5,7 @@
              version="3.0">
     <persistence-unit name="default">
         <non-jta-data-source>java:comp/env/jdbc/tmdt</non-jta-data-source>
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
@@ -13,12 +14,13 @@
         </properties>
     </persistence-unit>
 
+    <!--    Phần này giành clip 4-->
     <persistence-unit name="custom">
 
         <properties>
-            <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="root"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://localhost:3307/tmdt"/>
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
