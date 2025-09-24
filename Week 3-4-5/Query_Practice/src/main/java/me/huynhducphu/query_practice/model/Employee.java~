@@ -33,10 +33,7 @@ public class Employee {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @Column(name = "hire_date")
     private LocalDate hireDate;
-
-    @Column(name = "termination_date")
     private LocalDate terminationDate;
     private LocalDate dob;
 }

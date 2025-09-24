@@ -13,7 +13,7 @@ public class JpaUtil {
     private static EntityManagerFactory emf;
 
     public static void init() {
-        if (emf == null)
+        if (emf != null)
             emf = Persistence.createEntityManagerFactory("default");
     }
 
