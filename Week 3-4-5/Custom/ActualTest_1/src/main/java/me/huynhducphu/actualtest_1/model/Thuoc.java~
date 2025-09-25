@@ -1,0 +1,38 @@
+package me.huynhducphu.actualtest_1.model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+/**
+ * Admin 9/25/2025
+ **/
+@Entity
+@Table(name = "THUOC")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class Thuoc {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MATHUOC")
+    private Long maThuoc;
+
+    @Column(name = "TENTHUOC")
+    private String tenThuoc;
+
+    @Column(name = "GIA")
+    private double gia;
+
+    @Column(name = "NAMSX")
+    private Integer namSX;
+
+    @ManyToOne
+    @JoinColumn(name = "MALOAI")
+    private LoaiThuoc loaiThuoc;
+
+}

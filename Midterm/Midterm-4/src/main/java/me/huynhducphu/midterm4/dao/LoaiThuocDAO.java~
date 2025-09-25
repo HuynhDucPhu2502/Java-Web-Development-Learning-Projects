@@ -1,0 +1,9 @@
+package me.huynhducphu.midterm4.dao;
+
+import me.huynhducphu.midterm4.model.LoaiThuoc;
+
+/**
+ * Admin 9/25/2025
+ **/
+public class LoaiThuocDAO extends GenericDAO<LoaiThuoc> {
+}

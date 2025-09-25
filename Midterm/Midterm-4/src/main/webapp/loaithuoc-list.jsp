@@ -1,0 +1,37 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Admin
+  Date: 9/25/2025
+  Time: 3:25 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<a href="loaithuoc">Danh sách các loại thuốc</a> |
+<a href="thuoc">Danh sách thuốc</a> |
+<a href="thuoc?action=CREATE">Thêm mới thuốc</a>
+<h1>Danh sách loại thuốc</h1>
+
+<table border="1" width="80%">
+    <tr>
+        <th>maLoai</th>
+        <th>tenLoai</th>
+    </tr>
+
+    <c:forEach items="${listLoaiThuoc}" var="loaiThuoc">
+        <tr>
+            <td>${loaiThuoc.maLoai}</td>
+            <td>${loaiThuoc.tenLoai}</td>
+        </tr>
+    </c:forEach>
+
+</table>
+
+
+</body>
+</html>
