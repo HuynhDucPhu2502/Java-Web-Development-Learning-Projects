@@ -1,4 +1,4 @@
-package me.huynhducphu.actualtest_2.util;
+package me.huynhducphu.midterm5.util;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -21,6 +21,5 @@ public class JpaUtil {
         if (emf.isOpen())
             emf.close();
     }
-
 
 }

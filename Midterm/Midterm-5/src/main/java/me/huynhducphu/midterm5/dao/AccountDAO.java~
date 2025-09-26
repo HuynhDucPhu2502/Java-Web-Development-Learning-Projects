@@ -1,10 +1,9 @@
-package me.huynhducphu.actualtest_2.dao;
+package me.huynhducphu.midterm5.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
-import me.huynhducphu.actualtest_2.model.Account;
-import me.huynhducphu.actualtest_2.util.JpaUtil;
+import me.huynhducphu.midterm5.model.Account;
+import me.huynhducphu.midterm5.util.JpaUtil;
 
 import java.util.List;
 
@@ -18,16 +17,13 @@ public class AccountDAO {
 
         try {
             em.getTransaction().begin();
-
             em.merge(account);
-
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             em.close();
         }
-
     }
 
     public List<Account> findAll() {
@@ -38,8 +34,8 @@ public class AccountDAO {
                     SELECT a FROM Account a
                     """;
 
-            TypedQuery<Account> query = em.createQuery(jpql, Account.class);
 
+            TypedQuery<Account> query = em.createQuery(jpql, Account.class);
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,8 +77,9 @@ public class AccountDAO {
                     WHERE LOWER(a.ownerAddress) LIKE CONCAT("%", :address, "%")
                     """;
 
+
             TypedQuery<Account> query = em.createQuery(jpql, Account.class);
-            query.setParameter("address", address.toLowerCase());
+            query.setParameter("address", address);
 
             return query.getResultList();
         } catch (Exception e) {
@@ -93,5 +90,6 @@ public class AccountDAO {
 
         return null;
     }
+
 
 }

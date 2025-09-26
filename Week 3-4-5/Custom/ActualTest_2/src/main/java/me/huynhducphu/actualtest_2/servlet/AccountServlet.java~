@@ -50,7 +50,6 @@ public class AccountServlet extends HttpServlet {
 
                     } else if (tieuChi.equals("ADDRESS")) {
                         String address = req.getParameter("address");
-                        System.out.println("test");
 
                         if (address.isBlank())
                             req.setAttribute("listAccount", accountDAO.findAll());

@@ -1,9 +1,9 @@
-package me.huynhducphu.actualtest_2;
+package me.huynhducphu.midterm5;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import me.huynhducphu.actualtest_2.util.JpaUtil;
+import me.huynhducphu.midterm5.util.JpaUtil;
 
 /**
  * Admin 9/26/2025

@@ -38,7 +38,6 @@
         <input required name="amount" type="number">
     </div>
 
-    <button type="submit">Lưu</button>
 </form>
 
 

@@ -82,7 +82,7 @@ public class AccountDAO {
                     """;
 
             TypedQuery<Account> query = em.createQuery(jpql, Account.class);
-            query.setParameter("address", address.toLowerCase());
+            query.setParameter("address", address);
 
             return query.getResultList();
         } catch (Exception e) {

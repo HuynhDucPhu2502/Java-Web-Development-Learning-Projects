@@ -1,4 +1,4 @@
-package me.huynhducphu.actualtest_2.model;
+package me.huynhducphu.midterm5.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  * Admin 9/26/2025
  **/
 @Entity
-@Table(name = "accounts")
+@Table(name = "bank_account")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

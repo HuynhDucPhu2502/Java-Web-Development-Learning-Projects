@@ -18,8 +18,6 @@
 <h1>Danh sách tài khoản</h1>
 
 <form style="border: 1px solid">
-    <input name="action" value="SEARCH" type="hidden">
-
     <div>
         <label>Tiêu chí:</label>
         <select name="tieuChi">

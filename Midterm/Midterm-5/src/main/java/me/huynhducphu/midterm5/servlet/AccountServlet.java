@@ -1,4 +1,4 @@
-package me.huynhducphu.actualtest_2.servlet;
+package me.huynhducphu.midterm5.servlet;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import me.huynhducphu.actualtest_2.dao.AccountDAO;
-import me.huynhducphu.actualtest_2.model.Account;
+import me.huynhducphu.midterm5.dao.AccountDAO;
+import me.huynhducphu.midterm5.model.Account;
 
 import java.io.IOException;
 
@@ -34,41 +34,33 @@ public class AccountServlet extends HttpServlet {
                 case "SEARCH" -> {
                     String tieuChi = req.getParameter("tieuChi");
 
-                    if (tieuChi.equals("AMOUNT")) {
+                    if (tieuChi.equalsIgnoreCase("AMOUNT")) {
                         String minStr = req.getParameter("min");
                         String maxStr = req.getParameter("max");
 
-                        Double min = minStr.isBlank() ?
-                                null : Double.parseDouble(req.getParameter("min"));
-                        Double max = maxStr.isBlank() ?
-                                null : Double.parseDouble(req.getParameter("max"));
+                        Double min = minStr.isBlank() ? null : Double.parseDouble(minStr);
+                        Double max = maxStr.isBlank() ? null : Double.parseDouble(maxStr);
 
                         if (min == null && max == null)
-                            req.setAttribute("listAccount", accountDAO.findAll());
-                        else
-                            req.setAttribute("listAccount", accountDAO.findAmountInRange(min, max));
+                            req.setAttribute("accountList", accountDAO.findAll());
+                        else {
+                            req.setAttribute("accountList", accountDAO.findAmountInRange(min, max));
+                        }
 
-                    } else if (tieuChi.equals("ADDRESS")) {
+                    } else {
                         String address = req.getParameter("address");
-                        System.out.println("test");
-
-                        if (address.isBlank())
-                            req.setAttribute("listAccount", accountDAO.findAll());
-                        else
-                            req.setAttribute("listAccount", accountDAO.findByAddress(address));
-
+                        if (address.isBlank()) req.setAttribute("accountList", accountDAO.findAll());
+                        else req.setAttribute("accountList", accountDAO.findByAddress(address));
                     }
-
 
                     req.getRequestDispatcher("account-list.jsp").forward(req, resp);
                 }
-
             }
 
             return;
         }
 
-        req.setAttribute("listAccount", accountDAO.findAll());
+        req.setAttribute("accountList", accountDAO.findAll());
         req.getRequestDispatcher("account-list.jsp").forward(req, resp);
     }
 
@@ -77,8 +69,7 @@ public class AccountServlet extends HttpServlet {
         String ownerName = req.getParameter("ownerName");
         String cardNumber = req.getParameter("cardNumber");
         String ownerAddress = req.getParameter("ownerAddress");
-        String amountStr = req.getParameter("amount");
-        long amount = Long.parseLong(amountStr);
+        double amount = Double.parseDouble(req.getParameter("amount"));
 
         Account account = new Account(
                 null, ownerName, cardNumber,

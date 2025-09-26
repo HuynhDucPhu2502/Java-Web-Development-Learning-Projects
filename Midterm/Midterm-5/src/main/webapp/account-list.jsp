@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: Admin
   Date: 9/26/2025
-  Time: 10:01 AM
+  Time: 1:30 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,41 +12,37 @@
     <title>Title</title>
 </head>
 <body>
-
-<a href="accounts">Danh sách tài khoản</a> |
-<a href="accounts?action=CREATE">Tạo mới tài khoản</a>
+<a href="accounts">Xem danh sách tài khoản</a> |
+<a href="accounts?action=CREATE">Tạo mới tài khoản </a>
 <h1>Danh sách tài khoản</h1>
 
-<form style="border: 1px solid">
-    <input name="action" value="SEARCH" type="hidden">
+<form method="get" action="accounts">
+    <input type="hidden" name="action" value="SEARCH">
 
-    <div>
-        <label>Tiêu chí:</label>
-        <select name="tieuChi">
-            <option value="AMOUNT">Amount</option>
-            <option value="ADDRESS">Address</option>
-        </select>
-    </div>
+    <select name="tieuChi">
+        <option value="AMOUNT">Amount</option>
+        <option value="ADDRESS">Address</option>
+    </select>
 
     <div style="margin-top: 1rem">
-        <h3>Theo tiêu chí Amount</h3>
+        <h3>Tìm kiếm bằng Amount</h3>
         <div>
-            <label>Min:</label>
-            <input name="min" type="number">
+            <label>Min</label>
+            <input name="min">
         </div>
         <div>
-            <label>Max:</label>
-            <input name="max" type="number">
+            <label>Max</label>
+            <input name="max">
         </div>
     </div>
 
     <div style="margin-top: 1rem">
-        <h3>Theo tiêu chí Address</h3>
-        <label>Address:</label>
+        <h3>Tìm kiếm bằng Address</h3>
+        <label>Address</label>
         <input name="address">
     </div>
 
-    <button>Tìm kiếm</button>
+    <button style="margin-top: 1rem">Tìm kiếm</button>
 
 </form>
 
@@ -59,7 +55,7 @@
         <th>amount</th>
     </tr>
 
-    <c:forEach items="${listAccount}" var="a">
+    <c:forEach items="${accountList}" var="a">
         <tr>
             <td>${a.accountNumber}</td>
             <td>${a.ownerName}</td>
@@ -68,7 +64,9 @@
             <td>${a.amount}</td>
         </tr>
     </c:forEach>
+
 </table>
+
 
 </body>
 </html>
