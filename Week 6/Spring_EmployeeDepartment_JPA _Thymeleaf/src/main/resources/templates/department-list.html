@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách phòng ban</title>
+</head>
+<body>
+<h1>Danh sách phòng ban</h1>
+
+<a th:href="@{/departments/new}">➕ Thêm phòng ban</a>
+<br><br>
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>ID</th>
+        <th>Tên phòng ban</th>
+        <th>Hành động</th>
+    </tr>
+    <tr th:each="dept : ${departments}">
+        <td th:text="${dept.id}"></td>
+        <td th:text="${dept.name}"></td>
+        <td>
+            <a th:href="@{'/departments/edit/' + ${dept.id}}">✏️ Sửa</a> |
+            <a th:href="@{'/departments/delete/' + ${dept.id}}"
+               onclick="return confirm('Bạn có chắc muốn xóa phòng ban này?')">🗑️ Xóa</a>
+        </td>
+    </tr>
+</table>
+
+<br>
+<a th:href="@{/employees}">⬅ Quay lại danh sách nhân viên</a>
+</body>
+</html>

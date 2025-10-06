@@ -46,7 +46,7 @@ public class EmployeeController {
         }
         return ResponseEntity.ok(updated);
     }
-    
+
     @GetMapping("/name/{name}")
     public ResponseEntity<List<Employee>> findByName(@PathVariable String name) {
         return ResponseEntity.ok(employeeService.findByName(name));
@@ -65,6 +65,21 @@ public class EmployeeController {
     @GetMapping("/salary-between/{min}/{max}")
     public ResponseEntity<List<Employee>> findEmployeeBySalaryBetween(@PathVariable int min, @PathVariable int max) {
         return ResponseEntity.ok(employeeService.findEmployeeBySalaryBetween(min, max));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+        boolean deleted = employeeService.deleteEmployee(id);
+        if (deleted) {
+            return ResponseEntity.ok("Đã xóa nhân viên ID " + id);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/above-average")
+    public List<Employee> getAboveAverageSalaryEmployees() {
+        return employeeService.getEmployeesWithSalaryAboveAverage();
     }
 
 

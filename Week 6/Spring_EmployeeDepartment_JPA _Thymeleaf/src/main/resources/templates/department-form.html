@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${isEdit} ? 'Sửa phòng ban' : 'Thêm phòng ban'"></title>
+</head>
+<body>
+<h2 th:text="${isEdit} ? 'Sửa phòng ban' : 'Thêm phòng ban mới'"></h2>
+
+<form th:object="${department}"
+      th:action="${isEdit} ? @{/departments/update/{id}(id=${department.id})} : @{/departments}"
+      method="post">
+
+    <label>Tên phòng ban:</label>
+    <input type="text" th:field="*{name}" required><br><br>
+
+    <button type="submit" th:text="${isEdit} ? 'Cập nhật' : 'Lưu'"></button>
+</form>
+
+<br>
+<a th:href="@{/departments}">⬅ Quay lại danh sách</a>
+</body>
+</html>

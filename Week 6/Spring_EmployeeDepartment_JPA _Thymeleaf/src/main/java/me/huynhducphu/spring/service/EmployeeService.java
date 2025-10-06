@@ -27,21 +27,16 @@ public class EmployeeService {
     }
 
     public Employee findById(Long id) {
-        return employeeRepository
-                .findById(id)
-                .orElse(null);
+        return employeeRepository.findById(id).orElse(null);
     }
 
     public Employee createEmployee(EmployeeCreateDto dto) {
-        Department dept = departmentRepository.findById(dto.getDepartmentId())
-                .orElse(null);
-
+        Department dept = departmentRepository.findById(dto.getDepartmentId()).orElse(null);
         Employee employee = new Employee();
         employee.setName(dto.getName());
         employee.setAge(dto.getAge());
         employee.setSalary(dto.getSalary());
         employee.setDepartment(dept);
-
         return employeeRepository.save(employee);
     }
 
@@ -52,27 +47,13 @@ public class EmployeeService {
                     if (dto.getAge() != null) employee.setAge(dto.getAge());
                     if (dto.getSalary() != null) employee.setSalary(dto.getSalary());
                     if (dto.getDepartmentId() != null) {
-                        Department dept = departmentRepository.findById(dto.getDepartmentId())
-                                .orElse(null);
+                        Department dept = departmentRepository.findById(dto.getDepartmentId()).orElse(null);
                         employee.setDepartment(dept);
                     }
                     return employeeRepository.save(employee);
                 })
                 .orElse(null);
     }
-
-    public boolean deleteEmployee(Long id) {
-        if (employeeRepository.existsById(id)) {
-            employeeRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
-
-    public List<Employee> getEmployeesWithSalaryAboveAverage() {
-        return employeeRepository.findEmployeesWithSalaryAboveAverage();
-    }
-
 
     public List<Employee> findByName(String name) {
         return employeeRepository.findEmployeeByNameContainingIgnoreCase(name);
@@ -90,4 +71,9 @@ public class EmployeeService {
         return employeeRepository.findEmployeeBySalaryBetween(min, max);
     }
 
+    // 🔍 Tìm kiếm nâng cao
+    public List<Employee> advancedSearch(String name, Integer age,
+                                         Double minSalary, Double maxSalary, Long deptId) {
+        return employeeRepository.advancedSearch(name, age, minSalary, maxSalary, deptId);
+    }
 }
