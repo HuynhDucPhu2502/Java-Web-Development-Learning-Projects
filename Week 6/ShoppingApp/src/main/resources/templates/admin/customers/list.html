@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customers</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Customer List</h2>
+    <a class="btn btn-outline-secondary" th:href="@{/admin}">← Back to Dashboard</a>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a class="btn btn-primary" th:href="@{/admin/customers/create}">+ Add New Customer</a>
+
+    <!-- Select filter -->
+    <form method="get" th:action="@{/admin/customers}" class="d-flex align-items-center gap-2">
+        <select name="onlyActive" class="form-select form-select-sm" style="width: 180px;">
+            <option th:value="true" th:selected="${onlyActive}">Show Only Active</option>
+            <option th:value="false" th:selected="${!onlyActive}">Show All</option>
+        </select>
+        <button type="submit" class="btn btn-outline-primary btn-sm">Apply</button>
+    </form>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Phone Number</th>
+        <th>Name</th>
+        <th>Customer Since</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.id}"></td>
+        <td th:text="${customer.phoneNumber}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.customerSince}"></td>
+        <td>
+            <span th:if="${customer.isActive}" class="badge bg-success">Active</span>
+            <span th:unless="${customer.isActive}" class="badge bg-secondary">Inactive</span>
+        </td>
+        <td>
+            <a th:href="@{'/admin/customers/edit/' + ${customer.id}}" class="btn btn-warning btn-sm">Edit</a>
+            <a th:href="@{'/admin/customers/delete/' + ${customer.id}}"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Deactivate this customer?')">Deactivate</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

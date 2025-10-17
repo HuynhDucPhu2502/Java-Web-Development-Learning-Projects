@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .container-sales {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .left-panel {
+            flex: 2;
+            border-right: 2px solid #eee;
+            padding-right: 1rem;
+        }
+
+        .right-panel {
+            flex: 1;
+        }
+
+        table th, table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="container mt-4">
+<h2>Sales Page</h2>
+<a class="btn btn-outline-secondary mb-3" th:href="@{/admin}">← Back to Dashboard</a>
+
+<div class="container-sales">
+    <!-- BÊN TRÁI: Danh sách sản phẩm -->
+    <div class="left-panel">
+        <h4>Available Products</h4>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${products}">
+                <td th:text="${p.name}"></td>
+                <td th:text="${#numbers.formatInteger(p.price, 0, 'POINT')} + ' đ'"></td>
+                <td>
+                    <button class="btn btn-sm btn-primary" type="button"
+                            th:attr="data-id=${p.id}, data-name=${p.name}, data-price=${p.price}"
+                            onclick="addToCart(this)">+ Add
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- BÊN PHẢI: Giỏ hàng -->
+    <div class="right-panel">
+        <h4>Shopping Cart</h4>
+
+        <form method="post" th:action="@{/admin/sales/checkout}" id="checkoutForm">
+            <table class="table table-bordered" id="cartTable">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end fw-bold">Grand Total:</td>
+                    <td id="grandTotal">0</td>
+                    <td></td>
+                </tr>
+                </tfoot>
+            </table>
+
+            <div class="mb-3">
+                <label class="form-label">Customer Phone</label>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Customer Name</label>
+                <input type="text" class="form-control" id="customerName" readonly>
+            </div>
+
+            <div class="text-danger fw-bold mb-3" th:text="${error}"></div>
+
+            <button type="submit" class="btn btn-success w-100">Đặt Hàng</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const cartTable = document.querySelector('#cartTable tbody');
+    const grandTotalEl = document.getElementById('grandTotal');
+    let total = 0;
+
+    function addToCart(btn) {
+        const id = btn.getAttribute('data-id');
+        const name = btn.getAttribute('data-name');
+        const price = parseFloat(btn.getAttribute('data-price'));
+
+        // kiểm tra trùng sản phẩm
+        const existingRow = cartTable.querySelector(`tr[data-id="${id}"]`);
+        if (existingRow) {
+            const qtyInput = existingRow.querySelector('.qty');
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+            updateTotals();
+            return;
+        }
+
+        const row = document.createElement('tr');
+        row.setAttribute('data-id', id);
+        row.innerHTML = `
+            <td>${name}<input type="hidden" name="productIds" value="${id}"></td>
+            <td><input type="number" name="quantities" class="form-control qty" value="1" min="1" style="width:70px;"></td>
+            <td>${price.toLocaleString()} đ</td>
+            <td class="subtotal">${price.toLocaleString()} đ</td>
+            <td><button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">X</button></td>
+        `;
+        cartTable.appendChild(row);
+        updateTotals();
+    }
+
+    function removeRow(btn) {
+        btn.closest('tr').remove();
+        updateTotals();
+    }
+
+    function updateTotals() {
+        let grand = 0;
+        cartTable.querySelectorAll('tr').forEach(row => {
+            const qty = parseInt(row.querySelector('.qty').value);
+            const price = parseFloat(row.cells[2].textContent.replace(/[^\d]/g, ''));
+            const subtotal = qty * price;
+            row.querySelector('.subtotal').textContent = subtotal.toLocaleString() + ' đ';
+            grand += subtotal;
+        });
+        grandTotalEl.textContent = grand.toLocaleString() + ' đ';
+    }
+
+    // Tìm khách hàng theo số điện thoại
+    document.getElementById('phoneNumber').addEventListener('input', async function () {
+        const phone = this.value.trim();
+        if (phone.length >= 6) {
+            const res = await fetch(`/admin/sales/customer?phoneNumber=${phone}`);
+            const data = await res.json();
+            document.getElementById('customerName').value = data.found ? data.name : '';
+        } else {
+            document.getElementById('customerName').value = '';
+        }
+    });
+</script>
+</body>
+</html>

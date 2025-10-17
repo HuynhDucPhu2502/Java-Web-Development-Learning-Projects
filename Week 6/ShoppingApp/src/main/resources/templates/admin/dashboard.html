@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            width: 250px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+            padding-top: 1.5rem;
+            background-color: #fff;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        .card-body {
+            padding: 0.5rem 1rem 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .card a {
+            display: block;
+            padding: 12px;
+            border-top: 1px solid #eee;
+            text-decoration: none;
+            color: #0d6efd;
+            font-weight: 500;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .card a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Hai hàng rõ ràng */
+        .dashboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="container">
+<h2 class="text-center mt-4 mb-4">Admin Dashboard</h2>
+
+<!-- Hàng 1 -->
+<div class="dashboard-row">
+    <!-- Customers -->
+    <div class="card">
+        <img th:src="@{/images/customer.png}" alt="Customers">
+        <div class="card-body">
+            <h5 class="card-title">Customers</h5>
+            <p class="card-text">Manage customer information</p>
+        </div>
+        <a th:href="@{/admin/customers}">Go to Customers →</a>
+    </div>
+
+    <!-- Products -->
+    <div class="card">
+        <img th:src="@{/images/product.png}" alt="Products">
+        <div class="card-body">
+            <h5 class="card-title">Products</h5>
+            <p class="card-text">View and manage your products</p>
+        </div>
+        <a th:href="@{/admin/products}">Go to Products →</a>
+    </div>
+
+    <!-- Categories -->
+    <div class="card">
+        <img th:src="@{/images/category.png}" alt="Categories">
+        <div class="card-body">
+            <h5 class="card-title">Categories</h5>
+            <p class="card-text">Organize your product categories</p>
+        </div>
+        <a th:href="@{/admin/categories}">Go to Categories →</a>
+    </div>
+</div>
+
+<!-- Hàng 2 -->
+<div class="dashboard-row">
+    <!-- Orders -->
+    <div class="card">
+        <img th:src="@{/images/order.png}" alt="Orders">
+        <div class="card-body">
+            <h5 class="card-title">Orders</h5>
+            <p class="card-text">Check customer orders</p>
+        </div>
+        <a th:href="@{/admin/orders}">Go to Orders →</a>
+    </div>
+
+    <!-- Sales -->
+    <div class="card">
+        <img th:src="@{/images/sell.png}" alt="Sales">
+        <div class="card-body">
+            <h5 class="card-title">Sales</h5>
+            <p class="card-text">View sales reports and analytics</p>
+        </div>
+        <a th:href="@{/admin/sales}">Go to Sales →</a>
+    </div>
+</div>
+
+</body>
+</html>

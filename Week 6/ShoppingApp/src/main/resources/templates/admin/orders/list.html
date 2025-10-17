@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Orders List</h2>
+    <a class="btn btn-outline-secondary" th:href="@{/admin}">← Back to Dashboard</a>
+</div>
+
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.date}"></td>
+        <td th:text="${order.customer.name}"></td>
+        <td>
+            <a th:href="@{'/admin/orders/' + ${order.id}}" class="btn btn-info btn-sm">View Details</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Product List</h2>
+    <a class="btn btn-outline-secondary" th:href="@{/admin}">← Back to Dashboard</a>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a class="btn btn-primary" th:href="@{/admin/products/create}">+ Add New Product</a>
+
+    <!-- Select filter -->
+    <form method="get" th:action="@{/admin/products}" class="d-flex align-items-center gap-2">
+        <select name="onlyActive" class="form-select form-select-sm" style="width: 180px;">
+            <option th:value="true" th:selected="${onlyActive}">Show Only Active</option>
+            <option th:value="false" th:selected="${!onlyActive}">Show All</option>
+        </select>
+        <button type="submit" class="btn btn-outline-primary btn-sm">Apply</button>
+    </form>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>In Stock</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.category != null ? product.category.name : '—'}"></td>
+        <td th:text="${product.price}"></td>
+        <td><span th:text="${product.inStock} ? 'Yes' : 'No'"></span></td>
+        <td>
+            <span th:if="${product.isActive}" class="badge bg-success">Active</span>
+            <span th:unless="${product.isActive}" class="badge bg-secondary">Inactive</span>
+        </td>
+        <td>
+            <a th:href="@{'/admin/products/edit/' + ${product.id}}" class="btn btn-warning btn-sm">Edit</a>
+            <a th:href="@{'/admin/products/delete/' + ${product.id}}"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Deactivate this product?')">Deactivate</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

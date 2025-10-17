@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Details</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+<h2>Order Details</h2>
+
+<div class="mb-3">
+    <strong>Order ID:</strong> <span th:text="${order.id}"></span><br>
+    <strong>Date:</strong> <span th:text="${order.date}"></span><br>
+    <strong>Customer:</strong> <span th:text="${order.customer.name}"></span>
+</div>
+
+<h4>Order Lines</h4>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Amount</th>
+        <th>Purchase Price</th>
+        <th>Subtotal</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="line : ${order.orderLines}">
+        <td th:text="${line.product.name}"></td>
+        <td th:text="${line.amount}"></td>
+        <td th:text="${#numbers.formatDecimal(line.purchasePrice, 1, 'COMMA', 2, 'POINT')}"></td>
+        <td th:text="${#numbers.formatDecimal(line.amount * line.purchasePrice, 1, 'COMMA', 2, 'POINT')}"></td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3" class="text-end fw-bold">Total:</td>
+        <td th:text="${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')}" class="fw-bold"></td>
+    </tr>
+    </tfoot>
+</table>
+
+<a th:href="@{/admin/orders}" class="btn btn-secondary mt-3">Back to Orders</a>
+</body>
+</html>
