@@ -18,11 +18,12 @@
 
     <div class="mb-3">
         <label class="form-label">Category</label>
-        <select th:field="*{category}" class="form-select" required>
+        <!-- Quan trọng: bind vào category.id, option value là cat.id -->
+        <select th:field="*{category.id}" class="form-select" required>
+            <option value="">-- Chọn category --</option>
             <option th:each="cat : ${categories}"
-                    th:value="${cat}"
-                    th:text="${cat.name}"
-                    th:selected="${product.category != null and product.category.id == cat.id}">
+                    th:value="${cat.id}"
+                    th:text="${cat.name}">
             </option>
         </select>
     </div>

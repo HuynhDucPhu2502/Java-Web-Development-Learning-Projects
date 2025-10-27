@@ -31,7 +31,13 @@ public class SalesController {
     // Trang bán hàng
     @GetMapping
     public String showSalesPage(Model model) {
-        model.addAttribute("products", productService.getAll(true)); // chỉ active
+
+        var products = productService
+                .getAll(true)
+                .stream().filter(x -> x.getInStock() == true)
+                .toList();
+
+        model.addAttribute("products", products);
         model.addAttribute("cart", new ArrayList<OrderLine>());
         model.addAttribute("customer", new Customer());
         return "/admin/sales/sales";
@@ -82,10 +88,9 @@ public class SalesController {
             orderLineRepository.save(line);
         }
 
-        return "redirect:/admin/orders"; // sau khi đặt xong quay về danh sách đơn
+        return "redirect:/admin/orders";
     }
 
-    // API nhỏ để tìm khách hàng theo SĐT (dùng AJAX)
     @ResponseBody
     @GetMapping("/customer")
     public Map<String, Object> getCustomerByPhone(@RequestParam String phoneNumber) {

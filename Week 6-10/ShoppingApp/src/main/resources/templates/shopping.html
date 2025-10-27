@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Shopping</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .avatar {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: .5rem;
+            background: #f1f3f5;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #495057;
+            border: 1px dashed #dee2e6;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">ShoppingApp</a>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <h2 class="mb-3">Danh sách sản phẩm</h2>
+
+    <div class="alert alert-info" th:if="${#lists.isEmpty(products)}">
+        Chưa có sản phẩm nào.
+    </div>
+
+    <div class="row g-3" th:if="${!#lists.isEmpty(products)}">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" th:each="p : ${products}">
+            <div class="card h-100 shadow-sm">
+                <div class="avatar" th:text="${#strings.substring(p.name,0,1).toUpperCase()}">P</div>
+
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-2" th:text="${p.name}">Tên SP</h6>
+
+                    <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge text-bg-secondary"
+                  th:text="${p.category != null ? p.category.name : 'Chưa phân loại'}">Danh mục</span>
+                        <span class="badge"
+                              th:classappend="${p.inStock} ? 'text-bg-success' : 'text-bg-danger'"
+                              th:text="${p.inStock} ? 'Còn hàng' : 'Hết hàng'">Còn hàng</span>
+                        <span class="badge"
+                              th:classappend="${p.isActive} ? 'text-bg-primary' : 'text-bg-warning'"
+                              th:text="${p.isActive} ? 'Đang bán' : 'Tạm ẩn'">Đang bán</span>
+                    </div>
+
+                    <div class="mt-auto">
+                        <div class="fw-bold fs-6"
+                             th:text="${#numbers.formatDecimal(p.price, 0, 'POINT', 0, 'COMMA')} + ' ₫'">0 ₫
+                        </div>
+                        <a class="btn btn-primary btn-sm mt-2"
+                           th:href="@{'/shopping/products/' + ${p.id}}">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

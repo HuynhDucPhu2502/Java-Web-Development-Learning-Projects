@@ -1,12 +1,15 @@
 package me.huynhducphu.shoppingapp.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.huynhducphu.shoppingapp.model.Category;
 import me.huynhducphu.shoppingapp.model.Product;
 import me.huynhducphu.shoppingapp.service.CategoryService;
 import me.huynhducphu.shoppingapp.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Admin 10/12/2025
@@ -19,6 +22,11 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+
+    @ModelAttribute("categories")
+    public List<Category> categories() {
+        return categoryService.getAll();
+    }
 
     @GetMapping
     public String list(@RequestParam(required = false, defaultValue = "true") boolean onlyActive,

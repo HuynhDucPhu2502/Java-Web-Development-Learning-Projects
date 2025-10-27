@@ -45,6 +45,13 @@ public class ProductServiceImpl implements me.huynhducphu.shoppingapp.service.Pr
         existing.setPrice(request.getPrice());
         existing.setInStock(request.getInStock());
         existing.setIsActive(request.getIsActive());
+
+        if (request.getCategory() != null && request.getCategory().getId() != null) {
+            existing.setCategory(request.getCategory());
+        } else {
+            existing.setCategory(null);
+        }
+
         return productRepository.save(existing);
     }
 

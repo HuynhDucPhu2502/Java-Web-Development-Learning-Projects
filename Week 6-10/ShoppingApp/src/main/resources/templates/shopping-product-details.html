@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .avatar-lg {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: .75rem;
+            background: #f1f3f5;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: #495057;
+            border: 1px dashed #dee2e6;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">ShoppingApp</a>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <a class="btn btn-link px-0 mb-3" th:href="@{/shopping}">← Quay lại danh sách</a>
+
+    <div class="row g-4">
+        <div class="col-12 col-md-5">
+            <!-- KHÔNG dùng img -->
+            <div class="avatar-lg" th:text="${#strings.substring(product.name,0,1).toUpperCase()}">P</div>
+        </div>
+
+        <div class="col-12 col-md-7">
+            <h3 class="mb-2" th:text="${product.name}">Tên SP</h3>
+
+            <div class="d-flex align-items-center gap-2 mb-3">
+        <span class="badge text-bg-secondary"
+              th:text="${product.category != null ? product.category.name : 'Chưa phân loại'}">Danh mục</span>
+                <span class="badge"
+                      th:classappend="${product.inStock} ? 'text-bg-success' : 'text-bg-danger'"
+                      th:text="${product.inStock} ? 'Còn hàng' : 'Hết hàng'">Còn hàng</span>
+                <span class="badge"
+                      th:classappend="${product.isActive} ? 'text-bg-primary' : 'text-bg-warning'"
+                      th:text="${product.isActive} ? 'Đang bán' : 'Tạm ẩn'">Đang bán</span>
+            </div>
+
+            <div class="fs-3 fw-bold text-danger mb-3"
+                 th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')} + ' ₫'">0 ₫
+            </div>
+
+            <div class="alert alert-secondary mb-4">
+                Mã sản phẩm: <strong th:text="${product.id}">#ID</strong>
+            </div>
+
+            <!-- Nếu có giỏ hàng -->
+            <form th:action="@{/cart/add}" method="post" class="d-flex gap-2">
+                <input type="hidden" name="productId" th:value="${product.id}">
+                <input type="number" name="quantity" class="form-control" value="1" min="1" style="max-width:120px">
+                <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
