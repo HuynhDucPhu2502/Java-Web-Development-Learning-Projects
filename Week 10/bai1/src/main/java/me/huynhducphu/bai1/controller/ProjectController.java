@@ -1,0 +1,76 @@
+package me.huynhducphu.bai1.controller;
+
+import lombok.RequiredArgsConstructor;
+import me.huynhducphu.bai1.model.Project;
+import me.huynhducphu.bai1.service.ProjectService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.stream.Collectors;
+
+/**
+ * Admin 10/28/2025
+ **/
+@Controller
+@RequiredArgsConstructor
+public class ProjectController {
+
+    private final ProjectService projectService;
+
+    @GetMapping("/projects")
+    public String showProjectListPage(Model model, Authentication authentication) {
+        String roleName = authentication
+                .getAuthorities()
+                .stream()
+                .map(x -> x.getAuthority())
+                .collect(Collectors.joining(","));
+
+        // IN [ADMIN, MEMBER]
+        // OUT ADMIN, MEMBER
+
+        model.addAttribute("name", authentication.getName());
+        model.addAttribute("roleName", roleName);
+        model.addAttribute("projects", projectService.findAll());
+
+
+        return "project-list";
+    }
+
+    // /projects/form => new project
+    // /projects/form?id=X => update project co id = X
+    @GetMapping("/projects/form")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String showProjectFormPage(Model model, @RequestParam(required = false) Long id) {
+        if (id != null) {
+            Project project = projectService.findById(id);
+
+            if (project == null) model.addAttribute("project", new Project());
+            else model.addAttribute("project", project);
+
+        } else model.addAttribute("project", new Project());
+
+
+        return "project-form";
+    }
+
+    @PostMapping("/projects")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String saveProject(Project project) {
+        projectService.upsert(project);
+        return "redirect:/projects";
+    }
+
+    @PostMapping("/projects/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteProject(@PathVariable Long id) {
+        projectService.delete(id);
+        return "redirect:/projects";
+    }
+
+}

@@ -1,0 +1,52 @@
+package me.huynhducphu.springsecuritylearning.service.impl;
+
+import lombok.RequiredArgsConstructor;
+import me.huynhducphu.springsecuritylearning.model.Project;
+import me.huynhducphu.springsecuritylearning.repository.ProjectRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * Admin 10/27/2025
+ **/
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class ProjectServiceImpl implements me.huynhducphu.springsecuritylearning.service.ProjectService {
+
+    private final ProjectRepository projectRepository;
+
+    // upsert = insert + update
+    @Override
+    public void upsert(Project project, Long id) {
+        if (id != null) {
+            var existedProject = projectRepository
+                    .findById(id)
+                    .orElse(null);
+
+            if (existedProject == null) return;
+        }
+
+        projectRepository.save(project);
+    }
+
+    @Override
+    public void delete(Long id) {
+        projectRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Project> findAll() {
+        return projectRepository.findAll();
+    }
+
+    @Override
+    public Project findById(Long id) {
+        return projectRepository
+                .findById(id)
+                .orElse(null);
+    }
+
+}

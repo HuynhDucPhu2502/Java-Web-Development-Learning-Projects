@@ -1,0 +1,17 @@
+package me.huynhducphu.bai1.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+/**
+ * Admin 10/28/2025
+ **/
+@Controller
+public class AdminController {
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
+}
