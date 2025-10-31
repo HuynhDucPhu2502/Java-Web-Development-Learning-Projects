@@ -1,0 +1,21 @@
+package me.huynhducphu.bai2.service;
+
+import me.huynhducphu.bai2.model.Course;
+
+import java.util.List;
+
+/**
+ * Admin 10/31/2025
+ **/
+public interface CourseService {
+    // upsert = update + insert
+    void upsert(Course course);
+
+    void delete(Long id);
+
+    List<Course> findAll();
+
+    Course findById(Long id);
+
+    void openCourse(Long id);
+}

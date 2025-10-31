@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Course</title>
+</head>
+<body>
+
+<h1>Course List Page</h1>
+
+<p>Chào mừng <span th:text="${name}"></span>, bạn có chức vụ <span th:text="${roleName}"></span></p>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Đăng xuất</button>
+</form>
+
+<div th:if="${roleName.contains('ADMIN') ||  roleName.contains('TEACHER')}">
+    <a th:href="@{/courses/form}">Thêm mới khóa học</a>
+</div>
+
+<table border="1" width="80%">
+
+    <tr>
+        <th>id</th>
+        <th>className</th>
+        <th>subject</th>
+        <th>noOfStudents</th>
+        <th>startDate</th>
+        <th>endDate</th>
+        <th>isOpen</th>
+
+        <th th:if="${roleName.contains('ADMIN') ||  roleName.contains('TEACHER')}">
+            actions
+        </th>
+
+    </tr>
+
+    <tr th:each="c : ${courses}">
+        <td th:text="${c.id}"></td>
+        <td th:text="${c.className}"></td>
+        <td th:text="${c.subject}"></td>
+        <td th:text="${c.noOfStudents}"></td>
+        <td th:text="${c.startDate}"></td>
+        <td th:text="${c.endDate}"></td>
+        <td th:text="${c.isOpen}"></td>
+
+        <td th:if="${roleName.contains('ADMIN') ||  roleName.contains('TEACHER')}">
+            <a th:href="@{/courses/form(id=${c.id})}">Sửa</a>
+
+            <div th:if="${roleName.contains('ADMIN')}">
+
+                <form th:action="@{/courses/delete/{id}(id=${c.id})}" method="post">
+                    <button type="submit">Xóa</button>
+                </form>
+
+                <form th:action="@{/courses/delete/{id}(id=${c.id})}" method="post">
+                    <button type="submit">Xóa</button>
+                </form>
+            </div>
+
+        </td>
+    </tr>
+
+</table>
+
+
+</body>
+</html>
