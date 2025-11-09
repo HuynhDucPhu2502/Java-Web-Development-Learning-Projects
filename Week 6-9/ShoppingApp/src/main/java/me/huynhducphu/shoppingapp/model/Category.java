@@ -1,6 +1,8 @@
 package me.huynhducphu.shoppingapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.List;
@@ -22,6 +24,8 @@ public class Category {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @NotBlank(message = "Tên loại không được để trống")
+    @Size(max = 255, message = "Tên loại tối đa 255 ký tự")
     private String name;
 
     @OneToMany(mappedBy = "category")

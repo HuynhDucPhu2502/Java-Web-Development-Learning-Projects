@@ -38,16 +38,16 @@
                     <div class="d-flex gap-2">
                         <!-- Nút cho USER -->
                         <a class="btn btn-success"
-                           sec:authorize="hasRole('USER')"
+                           sec:authorize="hasAnyRole('USER', 'ADMIN')"
                            th:href="@{/shopping}">
-                            Qua trang Shopping (USER)
+                            Qua trang Shopping
                         </a>
 
                         <!-- Nút cho ADMIN -->
                         <a class="btn btn-warning"
                            sec:authorize="hasRole('ADMIN')"
                            th:href="@{/admin}">
-                            Vào khu vực Quản trị (/admin)
+                            Vào khu vực Quản trị
                         </a>
                     </div>
 

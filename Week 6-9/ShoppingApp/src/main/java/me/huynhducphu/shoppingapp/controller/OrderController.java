@@ -3,6 +3,7 @@ package me.huynhducphu.shoppingapp.controller;
 import lombok.RequiredArgsConstructor;
 import me.huynhducphu.shoppingapp.model.Order;
 import me.huynhducphu.shoppingapp.service.OrderService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,14 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public String list(Model model) {
         model.addAttribute("orders", orderService.getAll());
         return "/admin/orders/list";
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String viewDetails(@PathVariable Long id, Model model) {
         Order order = orderService.getById(id);
 

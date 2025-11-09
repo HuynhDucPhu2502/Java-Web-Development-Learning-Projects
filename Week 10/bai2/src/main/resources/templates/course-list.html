@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
     <title>Course</title>
@@ -14,7 +17,7 @@
     <button type="submit">Đăng xuất</button>
 </form>
 
-<div th:if="${roleName.contains('ADMIN') ||  roleName.contains('TEACHER')}">
+<div sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
     <a th:href="@{/courses/form}">Thêm mới khóa học</a>
 </div>
 

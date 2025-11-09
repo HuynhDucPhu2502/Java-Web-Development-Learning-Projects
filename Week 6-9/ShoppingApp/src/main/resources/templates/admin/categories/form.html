@@ -12,9 +12,20 @@
 <form th:action="${category.id == null} ? @{/admin/categories/create} : @{'/admin/categories/edit/' + ${category.id}}"
       th:object="${category}" method="post">
 
+    <!-- lỗi tổng quát -->
+    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+        Vui lòng kiểm tra lại các trường bên dưới.
+    </div>
+
     <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" th:field="*{name}" class="form-control" required>
+        <input type="text"
+               th:field="*{name}"
+               class="form-control"
+               th:classappend="${#fields.hasErrors('name')} ? ' is-invalid'">
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('name')}"
+             th:errors="*{name}"></div>
     </div>
 
     <button type="submit" class="btn btn-success">Save</button>

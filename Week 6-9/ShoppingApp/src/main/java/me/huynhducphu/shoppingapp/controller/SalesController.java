@@ -6,6 +6,7 @@ import me.huynhducphu.shoppingapp.service.CustomerService;
 import me.huynhducphu.shoppingapp.service.ProductService;
 import me.huynhducphu.shoppingapp.repository.OrderRepository;
 import me.huynhducphu.shoppingapp.repository.OrderLineRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class SalesController {
 
     // Trang bán hàng
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public String showSalesPage(Model model) {
 
         var products = productService
@@ -45,6 +47,7 @@ public class SalesController {
 
     // Xử lý đặt hàng
     @PostMapping("/checkout")
+    @PreAuthorize("hasRole('ADMIN')")
     public String checkout(
             @RequestParam String phoneNumber,
             @RequestParam List<Long> productIds,
@@ -93,6 +96,7 @@ public class SalesController {
 
     @ResponseBody
     @GetMapping("/customer")
+    @PreAuthorize("hasRole('ADMIN')")
     public Map<String, Object> getCustomerByPhone(@RequestParam String phoneNumber) {
         Map<String, Object> result = new HashMap<>();
         customerService.getAll(false)

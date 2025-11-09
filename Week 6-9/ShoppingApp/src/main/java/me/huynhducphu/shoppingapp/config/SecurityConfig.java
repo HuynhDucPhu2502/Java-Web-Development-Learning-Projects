@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * Admin 10/23/2025
  *
  **/
-@Configuration // tạo ra bean va` noi spring day la  config bean
+@Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -52,13 +52,13 @@ public class SecurityConfig {
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .requestMatchers("/shopping/**", "/cart/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/shopping/**").hasAnyRole("AMDIN", "USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/shopping", true) 
                         .permitAll()
                 )
                 .build();

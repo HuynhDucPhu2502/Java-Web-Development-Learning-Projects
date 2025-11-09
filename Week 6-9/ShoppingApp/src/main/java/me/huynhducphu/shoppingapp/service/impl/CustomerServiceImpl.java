@@ -41,8 +41,12 @@ public class CustomerServiceImpl implements me.huynhducphu.shoppingapp.service.C
     @Override
     public Customer update(Long id, Customer request) {
         Customer existing = getById(id);
+
         existing.setName(request.getName());
         existing.setCustomerSince(request.getCustomerSince());
+        existing.setPhoneNumber(request.getPhoneNumber());
+        existing.setIsActive(request.getIsActive());
+
         return customerRepository.save(existing);
     }
 
@@ -52,10 +56,6 @@ public class CustomerServiceImpl implements me.huynhducphu.shoppingapp.service.C
                 .orElseThrow(() -> new NoSuchElementException("Customer not found: " + id));
 
         customer.setIsActive(false);
-
-        if (customer.getComments() != null && !customer.getComments().isEmpty()) {
-            customer.getComments().clear();
-        }
 
         customerRepository.save(customer);
     }

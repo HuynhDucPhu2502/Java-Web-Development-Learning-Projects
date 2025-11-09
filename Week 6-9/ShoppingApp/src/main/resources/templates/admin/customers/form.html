@@ -11,21 +11,49 @@
 <form th:action="${customer.id == null} ? @{/admin/customers/create} : @{'/admin/customers/edit/' + ${customer.id}}"
       th:object="${customer}" method="post">
 
+    <!-- lỗi tổng quát -->
+    <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+        Vui lòng kiểm tra lại các trường bên dưới.
+    </div>
+
+    <!-- Phone Number -->
     <div class="mb-3">
         <label class="form-label">Phone Number</label>
-        <input type="text" th:field="*{phoneNumber}" class="form-control" placeholder="e.g. 0901234567" required>
+        <input type="text"
+               th:field="*{phoneNumber}"
+               class="form-control"
+               placeholder="e.g. 0901234567"
+               th:classappend="${#fields.hasErrors('phoneNumber')} ? ' is-invalid'">
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('phoneNumber')}"
+             th:errors="*{phoneNumber}"></div>
     </div>
 
+    <!-- Name -->
     <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" th:field="*{name}" class="form-control" required>
+        <input type="text"
+               th:field="*{name}"
+               class="form-control"
+               th:classappend="${#fields.hasErrors('name')} ? ' is-invalid'">
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('name')}"
+             th:errors="*{name}"></div>
     </div>
 
+    <!-- Customer Since -->
     <div class="mb-3">
         <label class="form-label">Customer Since</label>
-        <input type="date" th:field="*{customerSince}" class="form-control" required>
+        <input type="date"
+               th:field="*{customerSince}"
+               class="form-control"
+               th:classappend="${#fields.hasErrors('customerSince')} ? ' is-invalid'">
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('customerSince')}"
+             th:errors="*{customerSince}"></div>
     </div>
 
+    <!-- Status -->
     <div class="mb-3">
         <label class="form-label">Status</label>
         <select th:field="*{isActive}" class="form-select">
