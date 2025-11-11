@@ -5,14 +5,14 @@ import me.huynhducphu.shoppingapp.model.Comment;
 import me.huynhducphu.shoppingapp.model.Product;
 import me.huynhducphu.shoppingapp.service.CommentService;
 import me.huynhducphu.shoppingapp.service.ProductService;
+import me.huynhducphu.shoppingapp.service.impl.GeminiServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * Admin 10/23/2025
- *
- **/
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/shopping")
@@ -20,10 +20,23 @@ public class ShoppingController {
 
     private final ProductService productService;
     private final CommentService commentService;
+    private final GeminiServiceImpl geminiService;
 
     @GetMapping
     public String list(Model model) {
         model.addAttribute("products", productService.getAll(true));
+        return "shopping";
+    }
+
+    @PostMapping("/chat")
+    public String chat(@RequestParam("prompt") String prompt, Model model) {
+        // Load products lại để hiển thị cùng trang
+        model.addAttribute("products", productService.getAll(true));
+
+        String answer = geminiService.generateContent(prompt);
+        model.addAttribute("chatQuestion", prompt);
+        model.addAttribute("chatAnswer", answer);
+
         return "shopping";
     }
 

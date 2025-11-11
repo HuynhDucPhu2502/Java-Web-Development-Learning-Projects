@@ -7,12 +7,12 @@ INSERT INTO categories (id, name) VALUES
 (5, 'Thời trang');
 
 -- CUSTOMERS
-INSERT INTO customers (id, name, customer_since, is_active) VALUES
-(1, 'Nguyễn Văn A', '2023-01-10', 1),
-(2, 'Trần Thị B', '2023-03-05', 1),
-(3, 'Lê Văn C',   '2024-02-20', 1),
-(4, 'Phạm Thị D', '2024-06-01', 0),
-(5, 'Hoàng Văn E','2025-01-15', 1);
+INSERT INTO customers (id, name, customer_since, is_active, phone_number) VALUES
+(1, 'Nguyễn Văn A', '2023-01-10', 1, '0912345678'),
+(2, 'Trần Thị B', '2023-03-05', 1, '0988123456'),
+(3, 'Lê Văn C', '2024-02-20', 1, '0933666777'),
+(4, 'Phạm Thị D', '2024-06-01', 0, '0909123123'),
+(5, 'Hoàng Văn E', '2025-01-15', 1, '0977665544');
 
 -- PRODUCTS
 INSERT INTO products (id, name, price, in_stock, category_id, is_active) VALUES
